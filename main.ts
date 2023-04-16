@@ -132,6 +132,7 @@ class GameItem {
                         ingredientsInGame.push(_pizza)
                         _pizza.setPosition(this.index.x, this.index.y)
                         this.destroy()
+                        music.play(music.createSoundEffect(WaveShape.Triangle, 200, 600, 255, 0, 150, SoundExpressionEffect.None, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
                         obj_pepinillo.click.setPosition(-10, -10)
                     } else if (this.state == IngredientStates.Raw &&
                         ingredientSpriteTable[this.item][IngredientStates.Chopped] != null &&
@@ -198,7 +199,7 @@ class Pizza extends GameItem{
                             this.ingTypeList.push(obj_pepinillo.holdingIng.item)
                             this.index.setImage(this.addToImage(this.index.image.clone(), obj_pepinillo.holdingIng.item, IngredientStates.OnPizza))
                             obj_pepinillo.delIng()
-                            music.play(music.createSoundEffect(WaveShape.Triangle, 200, 600, 255, 0, 150, SoundExpressionEffect.None, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
+                            music.play(music.createSoundEffect(WaveShape.Triangle, 200 + (100 * this.ingTypeList.length - 2), 600 + (100 * this.ingTypeList.length - 2), 255, 0, 150, SoundExpressionEffect.None, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
                         }
                     }else{
                         obj_pepinillo.holdingIng = this
@@ -643,6 +644,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
             if (obj_pepinillo.holdingIng instanceof Pizza){
                 obj_pepinillo.holdingIng.index.setImage(assets.image`PzBox`)
                 obj_pepinillo.holdingIng.finished = true
+                music.play(music.createSoundEffect(WaveShape.Noise, 1, 546, 170, 237, 100, SoundExpressionEffect.None, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
             }
             obj_pepinillo.click.setPosition(-10, -10)
         } else if (tiles.tileAtLocationEquals(obj_pepinillo.click.tilemapLocation(), assets.tile`TStove`)){
