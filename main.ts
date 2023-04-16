@@ -666,7 +666,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
 sprites.onDestroyed(SpriteKind.ClickA, function (sprite: Sprite) {
     if (obj_pepinillo.holdingIng != null && sprite.y != -10) {
         if (tiles.tileAtLocationEquals(obj_pepinillo.click.tilemapLocation(), assets.tile`TWorkstation`)) {
-            if ((obj_pepinillo.holdingIng instanceof Pizza && obj_pepinillo.holdingIng.finished == false) || obj_pepinillo.holdingIng.item == IngredientTypes.Dough) {
+            if ((obj_pepinillo.holdingIng instanceof Pizza && obj_pepinillo.holdingIng.cookTime < 1200 && obj_pepinillo.holdingIng.finished == false) || (!(obj_pepinillo.holdingIng instanceof Pizza) && obj_pepinillo.holdingIng.item == IngredientTypes.Dough)) {
                 obj_pepinillo.placeIng()
                 music.play(music.createSoundEffect(WaveShape.Sine, 1126, 591, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
 
