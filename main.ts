@@ -27,8 +27,6 @@ enum IngredientStates {
 
 const soundArray = [
     music.createSoundEffect(WaveShape.Noise, 457, 1, 255, 0, 100, SoundExpressionEffect.Warble, InterpolationCurve.Logarithmic),
-    
-
 ]
 
 const musicArray = [
