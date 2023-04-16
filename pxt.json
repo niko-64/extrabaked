@@ -1,5 +1,5 @@
 {
-    "name": "Extrabaked",
+    "name": "Extrabaked Newest",
     "description": "",
     "dependencies": {
         "device": "*"
@@ -17,7 +17,7 @@
         "test.ts"
     ],
     "targetVersions": {
-        "target": "1.12.26",
+        "target": "1.12.29",
         "targetId": "arcade"
     },
     "supportedTargets": [
