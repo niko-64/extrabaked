@@ -335,6 +335,36 @@
         "displayName": "everythingpizza",
         "namespace": "mySongs."
     },
+    "song12": {
+        "data": "0096000408020107001c00020a006400f401640000040000000000000000000000000000000003320000000400011904000800011b08000c00011d0c001000011e10001400012014001800012218001c0001241c0020000325292c",
+        "mimeType": "application/mkcd-song",
+        "displayName": "sRanked",
+        "namespace": "mySongs."
+    },
+    "song11": {
+        "data": "0078000408020104001c00100500640000041e000004000000000000000000000000000a0400040c0000000400012404000800011d",
+        "mimeType": "application/mkcd-song",
+        "displayName": "dRanked",
+        "namespace": "mySongs."
+    },
+    "song9": {
+        "data": "0078000408020105001c000f0a006400f4010a00000400000000000000000000000000000000020c0000000400012204000800011e",
+        "mimeType": "application/mkcd-song",
+        "displayName": "bRanked",
+        "namespace": "mySongs."
+    },
+    "song10": {
+        "data": "0078000408020106001c00010a006400f401640000040000000000000000000000000000000002180000000400012004000800012408000c0001270c001000012c",
+        "mimeType": "application/mkcd-song",
+        "displayName": "aRanked",
+        "namespace": "mySongs."
+    },
+    "song13": {
+        "data": "0078000408020108001c000e050046006603320000040a002d00000064001400013200020100021e0000000400012404000800012208000c0001200c001000011d100014000119",
+        "mimeType": "application/mkcd-song",
+        "displayName": "cRanked",
+        "namespace": "mySongs."
+    },
     "*": {
         "mimeType": "image/x-mkcd-f4",
         "dataEncoding": "base64",

@@ -25,9 +25,7 @@ enum IngredientStates {
     Cooked = 3
 }
 
-const soundArray = [
-    music.createSoundEffect(WaveShape.Noise, 457, 1, 255, 0, 100, SoundExpressionEffect.Warble, InterpolationCurve.Logarithmic),
-]
+
 
 const musicArray = [
     music.createSong(assets.song`cheesepizza`),
@@ -120,6 +118,7 @@ class GameItem {
                     } else {
                         obj_pepinillo.placeIng()
                     }
+                    music.play(music.createSoundEffect(WaveShape.Sine, 591, 1126, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
 
                     obj_pepinillo.click.setPosition(-10,-10)
                     obj_pepinillo.holdingIng = this
@@ -144,6 +143,8 @@ class GameItem {
                             Math.floor(this.index.y / 16) * 16 + 8 + Math.randomRange(-4, 4)
                         )
                         obj_pepinillo.click.setPosition(-10, -10)
+                        
+                        music.play(music.createSoundEffect(WaveShape.Noise, 457, 1, 255, 0, 100, SoundExpressionEffect.Warble, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
                         if(this.cuts >= 5){
                             this.state = IngredientStates.Chopped
                             this.setPosition(
@@ -197,10 +198,13 @@ class Pizza extends GameItem{
                             this.ingTypeList.push(obj_pepinillo.holdingIng.item)
                             this.index.setImage(this.addToImage(this.index.image.clone(), obj_pepinillo.holdingIng.item, IngredientStates.OnPizza))
                             obj_pepinillo.delIng()
+                            music.play(music.createSoundEffect(WaveShape.Triangle, 200, 600, 255, 0, 150, SoundExpressionEffect.None, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
                         }
                     }else{
                         obj_pepinillo.holdingIng = this
+                        music.play(music.createSoundEffect(WaveShape.Sine, 591, 1126, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
                     }
+
                     obj_pepinillo.click.setPosition(-10, -10)
                     
                 } else {
@@ -296,6 +300,7 @@ let obj_pepinillo = {
     },
     placeIng: function (){
         if (obj_pepinillo.holdingIng != null) {
+            music.play(music.createSoundEffect(WaveShape.Sine, 1126, 591, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
             obj_pepinillo.holdingIng.setPosition(obj_pepinillo.click.x, obj_pepinillo.click.y);
             obj_pepinillo.holdingIng = null as GameItem;
         }
@@ -395,6 +400,14 @@ const pizzaRanksImg = [
     assets.image`BRank`,
     assets.image`ARank`,
     assets.image`SRank`
+]
+
+const rankSounds = [
+    music.createSong(assets.song`dRanked`),
+    music.createSong(assets.song`cRanked`),
+    music.createSong(assets.song`bRanked`),
+    music.createSong(assets.song`aRanked`),
+    music.createSong(assets.song`sRanked`),
 ]
 
 
@@ -511,11 +524,13 @@ class Customer{
                     Math.max(0, _pizzaRank--)
                 }
             }
-            if ((_pizzaRank == 3) && (this.waitTime < 2500)){
+            if ((_pizzaRank == 3) && (this.waitTime < 1800)){
                 _pizzaRank = 4;
             }
         }
-
+        music.setVolume(50)
+        music.play(rankSounds[_pizzaRank], music.PlaybackMode.InBackground)
+        music.setVolume(255)
         info.changeScoreBy((_pizzaRank * 0.25) * (this.order.length - 1) * 5)
 
         activeCustomers.splice(0,1)
@@ -549,7 +564,7 @@ game.onUpdateInterval(15000, function () {
 })
 
 
-music.setVolume(50)
+
 obj_pepinillo.hitBox.setPosition(40, 152)
 pause(1)
 game.splash("Extra Baked")
@@ -588,7 +603,9 @@ function setUpLevel(_levelNum: number){
     } 
     game.splash("Level " + _levelNum + " - Make $" + moneyRequirement + " in " + _timeText)
     info.startCountdown(_time)
+    music.setVolume(50)
     music.play(musicArray[Math.min(_levelNum - 1, musicArray.length - 1)], music.PlaybackMode.LoopingInBackground)
+    music.setVolume(255)
 }
 
 setUpLevel(currentLevel)
@@ -617,6 +634,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function() {
     obj_pepinillo.click.setPosition(obj_pepinillo.cursor.x, obj_pepinillo.cursor.y)
     if(obj_pepinillo.holdingIng != null){
         if (tiles.tileAtLocationEquals(obj_pepinillo.click.tilemapLocation(), assets.tile`TTrashcan`)) {
+            music.play(music.createSoundEffect(WaveShape.Noise, 1571, 279, 255, 0, 150, SoundExpressionEffect.None, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
             obj_pepinillo.delIng()
             obj_pepinillo.click.setPosition(-10, -10)
         } else if (tiles.tileAtLocationEquals(obj_pepinillo.click.tilemapLocation(), assets.tile`TTFloor`)) {
@@ -648,6 +666,8 @@ sprites.onDestroyed(SpriteKind.ClickA, function (sprite: Sprite) {
         if (tiles.tileAtLocationEquals(obj_pepinillo.click.tilemapLocation(), assets.tile`TWorkstation`)) {
             if ((obj_pepinillo.holdingIng instanceof Pizza && obj_pepinillo.holdingIng.finished == false) || obj_pepinillo.holdingIng.item == IngredientTypes.Dough) {
                 obj_pepinillo.placeIng()
+                music.play(music.createSoundEffect(WaveShape.Sine, 1126, 591, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Curve), music.PlaybackMode.InBackground)
+
             }
         } else if (tiles.tileAtLocationEquals(obj_pepinillo.click.tilemapLocation(), assets.tile`TRegister`)){
             if (obj_pepinillo.holdingIng instanceof Pizza && obj_pepinillo.holdingIng.finished == true){
@@ -657,6 +677,8 @@ sprites.onDestroyed(SpriteKind.ClickA, function (sprite: Sprite) {
                 obj_pepinillo.holdingIng.destroy()
                 obj_pepinillo.holdingIng = null
             }
-        } else obj_pepinillo.placeIng()
+        } else {
+            obj_pepinillo.placeIng()
+        }
     }
 })
