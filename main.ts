@@ -658,7 +658,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     sprites.destroyAllSpritesOfKind(SpriteKind.ClickB)
     obj_pepinillo.click = sprites.create(assets.image`clickCursorB`, SpriteKind.ClickB)
     obj_pepinillo.click.lifespan = 100
-    //_newCursor.setFlag(SpriteFlag.Invisible, true)
+    obj_pepinillo.click.setFlag(SpriteFlag.Invisible, true)
     obj_pepinillo.click.setPosition(obj_pepinillo.cursor.x, obj_pepinillo.cursor.y)
 })
 
