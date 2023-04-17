@@ -25,8 +25,6 @@ enum IngredientStates {
     Cooked = 3
 }
 
-
-
 const musicArray = [
     music.createSong(assets.song`cheesepizza`),
     music.createSong(assets.song`pepperonipizza`),
@@ -34,7 +32,6 @@ const musicArray = [
     music.createSong(assets.song`spinachpizza`),
     music.createSong(assets.song`everythingpizza`),
 ]
-
 
 const ingredientSpriteTable = [
     [
@@ -215,7 +212,7 @@ class Pizza extends GameItem{
         }
         if (tiles.tileAtLocationEquals(this.index.tilemapLocation(), assets.tile`TStove`)){
             this.cookTime++;
-            if (this.cookTime >= 1800){
+            if (this.cookTime >= (3600 - (difficulty * 450)) && difficulty != 0){
                 this.index.setImage(assets.image`BurntPizza`)
             } else if (this.cookTime >= 1200) {
                 this.index.setImage(this.createCookedImage())
@@ -516,7 +513,7 @@ class Customer{
     rankPizza(_pizza: Pizza){
         let _pizzaRank     
 
-        if (_pizza.cookTime < 1200 || _pizza.cookTime >= 1800){
+        if (_pizza.cookTime < 1200 || (_pizza.cookTime >= (3600 - (difficulty * 450)) && difficulty != 0)){
             _pizzaRank = 0
         } else {
             _pizzaRank = 3
@@ -525,10 +522,11 @@ class Customer{
                     Math.max(0, _pizzaRank--)
                 }
             }
-            if ((_pizzaRank == 3) && (this.waitTime < 1800)){
+            if ((_pizzaRank == 3) && (this.waitTime < 2400)){
                 _pizzaRank = 4;
             }
         }
+        _pizzaRank = Math.max(0, Math.min(_pizzaRank, 4))
         music.setVolume(50)
         music.play(rankSounds[_pizzaRank], music.PlaybackMode.InBackground)
         music.setVolume(255)
@@ -573,15 +571,16 @@ game.showLongText("A to pickup/place down. B to interact. Make the requested piz
 
 
 ///Level Setup
-
+game.showLongText("Choose a difficulty: \n1 - Little Linguini \n2 - Marinara Enthusiast \n3 - Spicy Meatball \n4 - MAMMA MIA!! \n5 - Dante Alighieri", DialogLayout.Full)
+let difficulty = Math.max(Math.min(game.askForNumber("Enter your difficulty", 1), 5) - 1, 0)
 let moneyRequirement = 0
-let currentLevel = 1
+let currentLevel = 1 + difficulty
 function setUpLevel(_levelNum: number){
 
     obj_pepinillo.hitBox.setPosition(40, 152)
     info.setScore(0)
-    moneyRequirement = 40 + (10 * _levelNum)
-    let _time = 60 + (Math.floor(moneyRequirement/10) * 20)
+    moneyRequirement = 10 + ((5 + (5 * difficulty)) * _levelNum)
+    let _time = 60 + (Math.floor(moneyRequirement / 10) * (60 / (difficulty + 1)))
     let _timeText
     if (_time % 60 == 0){
         _timeText = _time/60 + " minutes"
